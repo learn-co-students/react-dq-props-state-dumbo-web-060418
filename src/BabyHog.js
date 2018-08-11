@@ -5,13 +5,14 @@ import SunBaby from './assets/sun-eyes.png'
 import BlueBaby from './assets/blue-eyes.png'
 import GlowingBaby from './assets/glowing-eyes.png'
 
-// is there a way we could associate eye color string values with images? 
-// perhaps so we could do something along the lines of `eyeColorMapper['blue'] and get back the right image?`
-
 export default class BabyHog extends Component {
+//Here's what's been passed in Name, Hobby, EyeColor
 
   constructor(props) {
     super(props)
+    this.state = {
+      weight: 0
+    }
   }
 
   changeWeight = (e) => {
@@ -22,25 +23,41 @@ export default class BabyHog extends Component {
     })
   }
 
+  getImage = () => {
+    switch(this.props.eyeColor) {
+      case 'blue':
+       return <img src={BlueBaby} style={{height: '200px'}} alt={this.props.name}/>
+      break;
+      case 'sun':
+       return <img src={SunBaby} style={{height: '200px'}} alt={this.props.name}/>
+      break;
+      case 'glowing':
+        return <img src={GlowingBaby} style={{height: '200px'}} alt={this.props.name}/>
+      break;
+      default:
+       return <img src={normalBaby} style={{height: '200px'}} alt={this.props.name}/>
+    }
+  }
+
   render() {
     return (
       <li className="hogbabies">
-        <h1>Name</h1>
-        <h3>Weight:</h3>
-        <h3>Hobby:</h3>
-        <h4>Eye Color:</h4>
-          
-        <Button name="+">
+        <h1>{this.props.name}</h1>
+        <h3>Weight: {this.state.weight}</h3>
+        <h3>Hobby: {this.props.hobby}</h3>
+        <h4>Eye Color: {this.props.eyeColor}</h4>
+
+        <Button name="+" onClick={this.changeWeight}>
           Increase Weight
         </Button>
-        <Button name="-">
+        <Button name="-" onClick={this.changeWeight}>
           Decrease Weight
         </Button>
 
         <div className="hb-wrap">
-          <img src={normalBaby} style={{height: '200px'}} alt="MasterBlasterJrJr" />
+          {this.getImage()}
         </div>
-        
+
       </li>
     )
   }
